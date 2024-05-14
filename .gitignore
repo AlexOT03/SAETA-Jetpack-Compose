@@ -1,0 +1,45 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Archivos compilados
+bin/
+out/
+
+# Directorio de construcción generado por Gradle
+.gradle/
+build/
+
+# Directorio local de configuración para el IDE
+.idea/
+
+# Carpetas generadas por Android Studio para emuladores específicos.
+.android/
+.emulator_console_auth_token
+
+# Archivos de configuración local para el IDE
+*.iml
+
+# Archivos de clave
+*.jks
+
+# Carpetas generadas por el Android SDK
+sdk/
+
+# Archivos de usuario
+*.properties
+
+# Archivos de registro
+*.log
