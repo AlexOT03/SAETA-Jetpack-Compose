@@ -35,13 +35,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.saeta.HomeScreen.HomeScreen
-import com.example.saeta.LoginScreen.LoginScreen
 import com.example.saeta.RutasScreen.RutasScreen
 import kotlinx.coroutines.launch
 
