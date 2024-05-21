@@ -49,7 +49,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.saeta.HomeScreen.HomeScreen
-import com.example.saeta.LoginScreen.LoginScreen
 import com.example.saeta.RutasScreen.RutasScreen
 import com.example.saeta.TopBar.NavBarHeader
 import com.example.saeta.TopBar.NavigationDrawer
@@ -71,15 +70,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination =Screens.LoginScreen.route  ){
-                        composable(Screens.LoginScreen.route){
-                            LoginScreen(navController)
-                        }
-                        composable(Screens.NavigationDrawer.route){
                             NavigationDrawer()
-                        }
-                    }
+
                 }
             }
         }
