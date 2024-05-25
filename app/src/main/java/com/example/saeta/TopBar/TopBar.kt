@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,39 +41,29 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun NavBarHeader() {
-    Row(
+    Column(
             modifier = Modifier
                     .fillMaxWidth()
                     .background(primaryLight)
-                    .wrapContentHeight()
-                    .padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
+                    .wrapContentHeight().padding(10.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.Start,
 
             ) {
-        Image(painter = painterResource(id = R.drawable.img), contentDescription = null,
-                modifier = Modifier
-                        .size(110.dp)
-                        .padding(start = 5.dp, top = 20.dp, bottom = 20.dp)
+        Image(painter = painterResource(id = R.drawable.ic_launcher), contentDescription = null,
+                modifier = Modifier.size(80.dp).clip(RoundedCornerShape(100.dp))
+
         )
         Column {
-            Text(text = "RUTAS",
-                    modifier = Modifier
-                            .padding(end = 20.dp),
-
-                    fontSize = 32.sp,
-                    textAlign = TextAlign.Center,
+            Text(text = "SAETA",
+                    fontSize = 18.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
             )
-            Text(text = "TABASCO",
-                    modifier = Modifier
-                            .padding(end = 20.dp),
-
-                    fontSize = 32.sp,
-                    textAlign = TextAlign.Center,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
+            Text(text = "test@gmail.com",
+                    modifier = Modifier,
+                    fontSize = 14.sp,
+                    color = Color.Gray,
             )
         }
     }
@@ -82,14 +75,18 @@ fun NavBarHeader() {
 fun TopApp(drawerState: DrawerState) {
     val scope = rememberCoroutineScope()
     TopAppBar(
-            title = { Text(text = "") },
+            title = { Text( "SAETA", color = Color.White, fontWeight = FontWeight.Normal) },
             navigationIcon = {
                 IconButton(onClick = {
                     scope.launch {
                         drawerState.open()
                     }
                 }) {
-                    Icon(imageVector = Icons.Default.Menu, contentDescription = null)
+                    Icon(imageVector = Icons.Default.Menu, contentDescription = null, tint = Color.White)
                 }
-            })
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = primaryLight
+            )
+    )
 }
