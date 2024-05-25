@@ -55,6 +55,7 @@ import com.example.saeta.TopBar.NavigationDrawer
 import com.example.saeta.TopBar.NavigationItem
 import com.example.saeta.TopBar.Screens
 import com.example.saeta.ui.theme.SAETATheme
+import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.launch
 
 
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MobileAds.initialize(this){}
         setContent {
             SAETATheme {
                 // A surface container using the 'background' color from the theme
