@@ -1,6 +1,8 @@
 package com.example.saeta.TopBar
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,6 +56,7 @@ import com.example.saeta.HomeScreen.HomeScreen
 import com.example.saeta.R
 import com.example.saeta.RutasScreen.RutasScreen
 import com.example.saeta.SplashScreens
+import com.example.saeta.ui.theme.primaryLight
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,55 +106,65 @@ fun NavigationDrawer() {
         val gesturesEnabled: (String) -> Boolean = { route ->
             route !in excludeRoutes
         }
+        val configuration = LocalConfiguration.current
+        val drawerWidthModifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Modifier.fillMaxWidth(0.85f)
+        } else {
+            Modifier
+        }
 
         ModalNavigationDrawer(
                 drawerContent = {
-                    ModalDrawerSheet(modifier = Modifier.fillMaxWidth(.85f)) {
-                        val scrollState= rememberScrollState()
-                        Column(modifier=Modifier.verticalScroll(scrollState)) {
-                        NavBarHeader()
-                        items.forEachIndexed { index, item ->
-                            NavigationDrawerItem(
-                                    label = { Text(text = item.title) },
-                                    selected = index == selectedItemIndex,
-                                    onClick = {
+                                ModalDrawerSheet(modifier = drawerWidthModifier) {
+                                    val scrollState= rememberScrollState()
+                                    Column(modifier=Modifier.verticalScroll(scrollState)) {
+                                        NavBarHeader()
+                                        items.forEachIndexed { index, item ->
+                                            NavigationDrawerItem(
+                                                    label = { Text(text = item.title, color= primaryLight) },
+                                                    selected = index == selectedItemIndex,
+                                                    onClick = {
 
-                                        selectedItemIndex = index
-                                        scope.launch {
-                                            drawerState.close()
-                                        }
-                                        navController.navigate(item.screen.route) {
-                                            launchSingleTop = true
-                                        }
-                                    },
-                                    icon = {
-                                           Icon(painter = painterResource(id = item.selectedIcon), contentDescription = item.title )
-                                    },
-                                    modifier = Modifier.padding(5.dp)
-                            )
+                                                        selectedItemIndex = index
+                                                        scope.launch {
+                                                            drawerState.close()
+                                                        }
+                                                        navController.navigate(item.screen.route) {
+                                                            launchSingleTop = true
+                                                        }
+                                                    },
+                                                    icon = {
+                                                        Icon(painter = painterResource(id = item.selectedIcon), contentDescription = item.title, tint = primaryLight )
+                                                    },
+                                                    modifier = Modifier.padding(5.dp)
+                                            )
 
-                        }
-                        Divider(modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(5.dp)
-                                .height(2.dp), color = Color.Gray)
-                        NavigationDrawerItem(label = { Text("Cerrar App") },
-                                selected = false,
-                                onClick = {
-                                    scope.launch {
-                                        drawerState.close()
+                                        }
+                                        Divider(
+                                                modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(5.dp)
+                                                        .height(2.dp),
+                                                color = Color.Gray
+                                        )
+                                        Spacer(modifier = Modifier.height(20.dp))
+
+                                        NavigationDrawerItem(label = { Text("Cerrar App", color= primaryLight) },
+                                                selected = false,
+                                                onClick = {
+                                                    scope.launch {
+                                                        drawerState.close()
+                                                    }
+                                                    navController.popBackStack()
+
+                                                },
+                                                icon = {
+                                                    Icon(painter = painterResource(id = R.drawable.icon_logout ) , contentDescription = null, tint = primaryLight)
+                                                },
+                                                modifier = Modifier.padding(5.dp))
+
                                     }
-                                    navController.popBackStack()
-
-                                },
-                                icon = {
-                                    Icon(painter = painterResource(id = R.drawable.icon_logout ) , contentDescription = null)
-                                },
-                                modifier = Modifier.padding(5.dp))
-
-                        }
-                    }
-
+                                }
                 },
                 drawerState = drawerState,
                 gesturesEnabled = navController.currentBackStackEntryAsState().value?.destination?.route?.let { gesturesEnabled(it) } == true
