@@ -1,6 +1,8 @@
 package com.example.saeta.HomeScreen
 
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Spinner
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -23,6 +25,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,7 +54,8 @@ import com.google.android.gms.ads.AdView
 
 @Composable
 fun HomeScreen(routeViewModel: RouteViewModel = viewModel()) {
-    val routes by routeViewModel.routes.observeAsState(initial = emptyList())
+    val routes by routeViewModel.routes.observeAsState(emptyList())
+    val error by routeViewModel.error.observeAsState()
     Column(
             modifier = Modifier
                     .fillMaxWidth()
@@ -63,7 +67,7 @@ fun HomeScreen(routeViewModel: RouteViewModel = viewModel()) {
         AdBanner()
         Card(
                 modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth().fillMaxHeight()
                         .padding(top = 20.dp)
                         .clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp)),
                 elevation = CardDefaults.cardElevation(2.dp),
@@ -73,7 +77,26 @@ fun HomeScreen(routeViewModel: RouteViewModel = viewModel()) {
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold
             )
-            RoutesList(routes = routes)
+            if (error != null) {
+
+                Text(
+                        text = "No se ha podido conectar con la API",
+                        color = Color.Red,
+                        modifier = Modifier.padding(top=100.dp)
+                                .align(Alignment.CenterHorizontally)
+                )
+            } else if (routes.isEmpty()) {
+                CircularProgressIndicator(
+                        modifier = Modifier
+                                .size(70.dp).align(Alignment.CenterHorizontally)
+                                .padding(top=100.dp),
+                        color = secondaryLight,
+                        strokeWidth = 6.dp,
+
+                )
+            }else{
+                RoutesList(routes = routes)
+            }
         }
 
     }
@@ -81,9 +104,16 @@ fun HomeScreen(routeViewModel: RouteViewModel = viewModel()) {
 
 @Composable
 fun RoutesList(routes: List<Route>){
-    LazyColumn(modifier = Modifier.padding(10.dp)) {
-        items(routes) {route->
-            RouteItem(route)
+    if (routes.isEmpty()) {
+        Text(
+                text = "No routes available",
+                modifier = Modifier.padding(16.dp)
+        )
+    } else {
+        LazyColumn(modifier = Modifier.padding(10.dp)) {
+            items(routes) { route ->
+                RouteItem(route)
+            }
         }
     }
 }
