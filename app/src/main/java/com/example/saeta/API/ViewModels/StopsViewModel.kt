@@ -3,38 +3,31 @@ package com.example.saeta.API.ViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.saeta.API.Data
-import com.example.saeta.API.Route
 import com.example.saeta.API.RouteApi
-import com.example.saeta.API.Trip
+import com.example.saeta.API.Stop
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-class RouteViewModel : ViewModel() {
-    private val _routes = MutableLiveData<List<Route>>()
-    val routes: LiveData<List<Route>> get() = _routes
-    private val _route = MutableLiveData<Route>()
-    val route: LiveData<Route> get() = _route
-
+class StopsViewModel : ViewModel() {
+    private val _goings = MutableLiveData<List<Stop>>()
+    val goings: LiveData<List<Stop>> get() = _goings
+    private val _returns = MutableLiveData<List<Stop>>()
+    val returns: LiveData<List<Stop>> get() = _returns
 
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> get() = _error
 
-    init {
-        fetchRoutes()
-    }
 
-    private fun fetchRoutes() {
+    fun fetchGoings(routeID: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = RouteApi.apiService.getRoutes().execute()
+                val response = RouteApi.apiService.getGoings(routeID).execute()
                 if (response.isSuccessful) {
                     response.body()?.let {
-                        _routes.postValue(it)
+                        _goings.postValue(it)
                         _error.postValue(null)
                     } ?: run {
                         _error.postValue("No data available")
@@ -51,14 +44,13 @@ class RouteViewModel : ViewModel() {
             }
         }
     }
-
-    fun fetchRouteById(id: Int) {
+    fun fetchReturns(routeID: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = RouteApi.apiService.getRouteById(id).execute()
+                val response = RouteApi.apiService.getReturns(routeID).execute()
                 if (response.isSuccessful) {
-                    response.body()?.let {
-                        _route.postValue(it)
+                    response.body()?.let {stop ->
+                        _returns.postValue(stop)
                         _error.postValue(null)
                     } ?: run {
                         _error.postValue("No data available")
@@ -75,7 +67,4 @@ class RouteViewModel : ViewModel() {
             }
         }
     }
-
-
-
 }
