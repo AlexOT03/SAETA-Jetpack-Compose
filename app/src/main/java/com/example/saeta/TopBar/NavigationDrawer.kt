@@ -52,6 +52,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.saeta.AboutScreen.AboutScreen
 import com.example.saeta.HomeScreen.HomeScreen
 import com.example.saeta.R
 import com.example.saeta.RutasScreen.RutasScreen
@@ -74,11 +75,6 @@ fun NavigationDrawer() {
                     screen = Screens.RutasScreen
             ),
             NavigationItem(
-                    title = "Favoritos",
-                    selectedIcon = R.drawable.icon_heart,
-                    screen = Screens.RutasScreen
-            ),
-            NavigationItem(
                     title = "Lugares Turisticos",
                     selectedIcon = R.drawable.icon_building_monument,
                     screen = Screens.RutasScreen
@@ -86,7 +82,7 @@ fun NavigationDrawer() {
             NavigationItem(
                     title = "Acerca De",
                     selectedIcon = R.drawable.icon_info_circle,
-                    screen = Screens.HomeScreen
+                    screen = Screens.AboutScreen
             )
     )
     Surface(
@@ -100,11 +96,12 @@ fun NavigationDrawer() {
         }
         val navController = rememberNavController()
         val excludeRoutes = listOf(Screens.SplashScreen.route)
+        val excludeRoutesgest = listOf(Screens.SplashScreen.route, Screens.DetailRouteScreen.route)
         val shouldShowTopBar: (String) -> Boolean = { route ->
             route !in excludeRoutes
         }
         val gesturesEnabled: (String) -> Boolean = { route ->
-            route !in excludeRoutes
+            route !in excludeRoutesgest
         }
         val configuration = LocalConfiguration.current
         val drawerWidthModifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -189,6 +186,9 @@ fun NavigationDrawer() {
                     }
                     composable(Screens.RutasScreen.route) {
                         RutasScreen()
+                    }
+                    composable(Screens.AboutScreen.route){
+                        AboutScreen()
                     }
 
                 }
