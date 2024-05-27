@@ -220,12 +220,12 @@ fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier) {
 
 @Composable
 fun IndicatorDots(isSelected: Boolean, modifier: Modifier) {
-    val size = animateDpAsState(targetValue = if (isSelected) 12.dp else 10.dp, label = "")
+    val size = animateDpAsState(targetValue = if (isSelected) 10.dp else 8.dp, label = "")
     Box(modifier = modifier
             .padding(2.dp)
             .size(size.value)
             .clip(CircleShape)
-            .background(if (isSelected) Color(0xff373737) else Color(0xA8373737))
+            .background(if (isSelected) Color.White else Color.DarkGray)
     ) {
 
     }
