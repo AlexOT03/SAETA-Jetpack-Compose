@@ -30,8 +30,8 @@ data class Stop(
         val road: String,
         val logo: String,
         val is_terminal: Boolean,
-        val altitude: Number,
-        val latitude: Number
+        val altitude: Double,
+        val latitude: Double
 )
 data class Data(
         val routes: List<Route>
